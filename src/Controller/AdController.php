@@ -6,6 +6,8 @@ use App\Entity\Ad;
 use App\Form\AdType;
 use App\Repository\AdRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,6 +35,7 @@ class AdController extends AbstractController
      * @Route("/ads/new", name="ads_create")
      * @param Request $request
      * @param ObjectManager $manager
+     * @IsGranted("ROLE_USER")
      * @return Response
      */
     public function create(Request $request, ObjectManager $manager)
@@ -67,7 +70,7 @@ class AdController extends AbstractController
     }
 
     /**
-     * Premet d'afficher une seule annonce
+     * Permet d'afficher une seule annonce
      *
      * @Route("/ads/{slug}", name="ads_show")
      * @param Ad $ad
@@ -86,6 +89,7 @@ class AdController extends AbstractController
      * @Route("/ads/{slug}/edit",name="ads_edit")
      * @param Ad $ad
      * @param Request $request
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Cette article appartient a un autre utilisateur ! vous ne pouvez la modifier")
      * @param ObjectManager $manager
      * @return Response
      */
@@ -116,6 +120,24 @@ class AdController extends AbstractController
             'form' => $form->createView(),
             'ad' => $ad
         ]);
+    }
+
+    /**
+     * @Route("/ads/{slug}/delete",name="ads_delete")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Vous n'avais pas le droit d'acceder a cette ressource")
+     *
+     * @param Ad $ad
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Ad $ad, ObjectManager $manager){
+        $manager->remove($ad);
+        $manager->flush();
+        $this->addflash(
+            'success',
+            "L'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimée !"
+        );
+        return $this->redirectToRoute("ads_index");
     }
 
 

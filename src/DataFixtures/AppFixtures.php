@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use App\Entity\Image;
+use App\Entity\Role;
 use App\Entity\User;
 use Cocur\Slugify\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -23,9 +24,25 @@ class AppFixtures extends Fixture
         $this->encoder = $encoder;
     }
 
+
+
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('FR-fr');
+        $adminRole = new Role();
+        $adminRole->setTitle('ROLE_ADMIN');
+        $manager->persist($adminRole);
+        $adminUser = new User();
+        $adminUser->setFirstname('quentin')
+            ->setLastname('Sommesous')
+            ->setEmail('quentin.sommesous@sfr.fr')
+            ->setHash($this->encoder->encodePassword($adminUser,'password'))->setPicture('https://avatars.io/twitter/sloders')
+            ->setIntroduction($faker->sentence())
+            ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>')
+            ->addUserRole($adminRole);
+        $manager->persist($adminUser);
+
+
         $slugify = new Slugify();
         //Nous gerons les utilisateurs
         $users = [];
