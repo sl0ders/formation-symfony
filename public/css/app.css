@@ -32,3 +32,7 @@ div.ad-title {
     max-height: 24px;
     max-width: 24px;
 }
+
+.datapicker table tr td.disabled, .datepicker table tr td.disabled{
+    color: #ff2121 !important;
+}
