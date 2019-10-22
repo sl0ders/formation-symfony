@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Réserver l'annonce : {{ ad.title }} !{% endblock %}
+{% block title %}Réserver l'annonce :{{ ad.title }}!{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css">
-
-
 {% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1>Réservez pour l'annonce : {{ ad.title }}</h1>
+        <h1>Réservez pour l'annonce :<em> {{ ad.title }} !</em></h1>
 
         <p>Vous etes sur le point de réserver le bien de <strong>{{ ad.author.fullName }}</strong>, dites nous tout, on
             s'occupe du reste</p>
@@ -21,10 +19,10 @@
                 <div class="col">{{ form_row(form.startTime) }}</div>
                 <div class="col">{{ form_row(form.endDate) }}</div>
             </div>
-            <h4>Montant du séjour : <span id="amount">...</span>&euro;</h4>
-            <span id="days">0</span> nuit(s) à {{ ad.price }} / nuit
+            <h4 class="mt-2">Montant du séjour : <span id="amount">...</span>&euro;</h4>
+            <span id="days">0</span> nuit(s) à {{ ad.price| number_format(2,',',' ') }}&euro; par nuit
 
-            <h2>Vous avez un commentaire ?</h2>
+            <h2 class="mt-3">Vous avez un commentaire ?</h2>
             {{ form_row(form.comment) }}
         </div>
         <h2>Vous avez terminez !</h2>

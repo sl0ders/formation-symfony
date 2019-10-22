@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>SymBnB - {% block title %}Welcome!{% endblock %}</title>
@@ -12,11 +12,11 @@
 </head>
 <body>
 
-{% include "partials/header.html.twig" %}
+{% include "admin/partials/header.html.twig" %}
 
 {% block body %}{% endblock %}
 
-{% include "partials/footer.html.twig" %}
+{% include "admin/partials/footer.html.twig" %}
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
