@@ -6,6 +6,7 @@ use App\Entity\Ad;
 use App\Entity\Comment;
 use App\Form\AdType;
 use App\Repository\AdRepository;
+use App\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,14 +17,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminAdController extends AbstractController
 {
     /**
-     * @Route("/admin/ads", name="admin_ads_index")
+     * @Route("/admin/ads/{page<\d+>?1}", name="admin_ads_index")
      * @param AdRepository $repo
+     * @param $page
+     * @param Pagination $pagination
      * @return Response
      */
-    public function index(AdRepository $repo)
+    public function index(AdRepository $repo, $page, Pagination $pagination)
     {
+        $pagination
+            ->setEntityClass(Ad::class)
+            ->setPage($page);
         return $this->render('admin/ad/index.html.twig', [
-            'ads' => $repo->findAll(),
+            'pagination' => $pagination
         ]);
     }
 
@@ -51,7 +57,6 @@ class AdminAdController extends AbstractController
                 "l'annonce <strong>{$ad->getTitle()}</strong> à bien etait enregistrée"
             );
         }
-
         return $this->render('admin/ad/edit.html.twig', [
             'ad' => $ad,
             'form' => $form->createView()
@@ -69,19 +74,19 @@ class AdminAdController extends AbstractController
      */
     public function delete(Ad $ad, ObjectManager $manager)
     {
-        if (count($ad->getBookings()) > 0){
+        if (count($ad->getBookings()) > 0) {
             $this->addFlash(
                 'warning',
                 "Vous ne pouvez pas supprimer l'annonce <strong>{$ad->getTitle()}</strong>car elle possede déja des révervation"
             );
         } else {
-        $manager->remove($ad);
-        $manager->flush();
+            $manager->remove($ad);
+            $manager->flush();
 
-        $this->addFlash(
-            'success',
-            "l'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimée"
-        );
+            $this->addFlash(
+                'success',
+                "l'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimée"
+            );
         }
         return $this->redirectToRoute('admin_ads_index');
     }

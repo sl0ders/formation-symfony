@@ -74,7 +74,7 @@
                                     <td>{{ comment.rating }}</td>
                                     <td>{{ comment.content }}</td>
                                     <td>
-                                        <a href="" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                                        <a href="{{ path('admin_comment_edit', {'id': comment.id }) }}" class="btn btn-primary"><i class="fas fa-pen"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -86,6 +86,7 @@
         </div>
         {{ form_end(form) }}
     </div>
+
 {% endblock %}
 
 {% block _ad_images_entry_row %}
@@ -102,9 +103,8 @@
      <div class="row align-items-center">
          <div class="col-4 mt-3">
              {% if value %}
-                 <img src="{{ value.url }}" alt="" class="img-fluid">
+                 <img src="{{ value.Url }}" alt="" class="img-fluid">
              {% endif %}
-
          </div>
          <div class="col-6">
              {{ form_row(form.caption) }}
