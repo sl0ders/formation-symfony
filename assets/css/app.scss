@@ -1,0 +1,74 @@
+@import url("./bootstrap.min.css");
+
+.container, .container-fluid {
+  margin-top: 20px;
+}
+
+.ad-title {
+  padding: 2em;
+  background-size: cover;
+  background-position: center center;
+
+  p, h1 {
+    color: white;
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+
+  }
+
+  .btn {
+    margin-top: 2em;
+    font-size: 1.5em;
+    line-height: 1.5em
+  }
+}
+
+
+.carousel-caption {
+  text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+}
+
+.avatar {
+  max-width: 128px;
+  max-height: 128px;
+  border-radius: 50%;
+
+  &.avatar-medium {
+    max-width: 64px;
+    max-height: 64px;
+  }
+
+  &.avatar-mini {
+    max-height: 24px;
+    max-width: 24px;
+  }
+
+  &.avatar-micro {
+    max-height: 25px;
+    max-width: 25px;
+  }
+}
+
+.navbar {
+  border-style: none;
+  border-width: 0 1px 4px 1px;
+}
+
+.datapicker table tr td.disabled, .datepicker table tr td.disabled {
+  color: #ff2121 !important;
+}
+
+span.rating i {
+  color: goldenrod;
+}
+
+.alert {
+  a {
+    text-decoration: none;
+  }
+
+  .btn {
+    color: #ffffff;
+  }
+}
+
+
